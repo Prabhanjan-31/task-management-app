@@ -89,6 +89,21 @@ function startWorkManager() {
 
       // 🔹 STEP 1: Language Detection
       if (job.status === "QUEUED") {
+
+        // ⏳ Add delay before processing
+  if (!job.queuedAt) {
+    job.queuedAt = Date.now();
+    continue;
+  }
+
+  const waitTime = Date.now() - job.queuedAt;
+
+  // wait 5 seconds before processing
+  if (waitTime < 5000) {
+    continue;
+  }
+
+
         try {
           console.log(`Fetching language for job ${job.id}...`);
 
